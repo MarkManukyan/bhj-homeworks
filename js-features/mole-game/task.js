@@ -1,6 +1,9 @@
 let score = 0;
 let misses = 0;
 
+const deadSpan = document.getElementById('dead');
+const lostSpan = document.getElementById('lost');
+
 function getHole(index) {
     return document.getElementById(`hole${index}`);
 }
@@ -14,6 +17,18 @@ function randomHole() {
     getHole(index).classList.add('hole_has-mole');
 }
 
+function updateScore() {
+    deadSpan.textContent = score;
+    lostSpan.textContent = misses;
+}
+
+function resetGame() {
+    score = 0;
+    misses = 0;
+    updateScore();
+    randomHole();
+}
+
 for (let i = 1; i <= 9; i++) {
     const hole = getHole(i);
 
@@ -23,8 +38,10 @@ for (let i = 1; i <= 9; i++) {
             alert(`Убито кротов: ${score}`);
         } else {
             misses++;
-            alert(`Поражения: ${misses}`);
+            alert(`Промахи: ${misses}`);
         }
+
+        updateScore();
 
         if (score === 10) {
             alert('Поздравляем! Вы победили!');
@@ -32,15 +49,11 @@ for (let i = 1; i <= 9; i++) {
         } else if (misses === 5) {
             alert('Вы проиграли! Попробуйте снова.');
             resetGame();
+        } else {
+            randomHole();
         }
-        randomHole();
     };
 }
 
-function resetGame() {
-    score = 0;
-    misses = 0;
-    randomHole();
-}
-
+updateScore();
 randomHole();
